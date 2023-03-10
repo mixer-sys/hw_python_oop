@@ -131,14 +131,18 @@ class Swimming(Training):
                 * self.weight * self.duration)
 
 
+WORKOUT_TYPES = {'SWM': Swimming,
+                 'RUN': Running,
+                 'WLK': SportsWalking,
+                 }
+
+
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    workout_types = {'SWM': Swimming,
-                     'RUN': Running,
-                     'WLK': SportsWalking,
-                     }
-    if workout_type in workout_types:
-        return workout_types[workout_type](*data)
+    if workout_type not in WORKOUT_TYPES:
+        raise NotImplementedError(f'No key "{workout_type}" '
+                                  'in dict "WORKOUT_TYPES".')
+    return WORKOUT_TYPES[workout_type](*data)
 
 
 def main(training: Training) -> None:
